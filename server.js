@@ -6,12 +6,12 @@ const http = require('http');
 
 const server = http.createServer(app);
 
-// const io = require('socket.io')(server, {
-//   cors: {
-//     origin: process.env.APP_URL,
-//     methods: ['GET', 'POST'],
-//   },
-// });
+const io = require('socket.io')(server, {
+  cors: {
+    origin: process.env.APP_URL,
+    methods: ['GET', 'POST'],
+  },
+});
 
 const PORT = process.env.PORT || 4000;
 const HTTP_SUCESS_CODE = 200;
@@ -33,10 +33,10 @@ app.get('/websocket/healthcheck', (_req, res) => {
 });
 
 app.post('/websocket/status', (req, res) => {
-  // const { id, status } = req.body;
+  const { id, status } = req.body;
 
   try {
-    // io.emit('confirmTransaction', { ...req.body, id, status });
+    io.emit('confirmTransaction', { ...req.body, id, status });
     res.status(HTTP_SUCESS_CODE).json({ message: 'sucess' });
   } catch (error) {
     res.status(404).json({ message: 'sucess', content: '/' });
